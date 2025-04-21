@@ -33,6 +33,15 @@ var iconosVidas = [];
 // Estado de menú principal
 var estadoMenu = {
     preload: function () {
+        WebFont.load({
+            google: {
+                families: ['Press Start 2P']
+            },
+            active: () => {
+                this.fuenteCargada = true;
+            }
+        });
+        
         juego.load.image('fondo', 'img/menuSpider.png');
         juego.load.image('fondoDerrota', 'img/derrota2Redimension.png');
         juego.load.image('fondoVictoria', 'img/victoria.png');
@@ -55,26 +64,16 @@ var estadoMenu = {
     },
 
     create: function () {
+        // Esperar hasta que la fuente esté cargada
+        if (!this.fuenteCargada) {
+            juego.time.events.add(100, this.create, this);
+            return;
+        }
+        
         fondoJuego = juego.add.tileSprite(0, 0, 600, 900, 'fondo');
 
         var estiloTexto = {
             font: "20px 'Press Start 2P'",
-            fill: "#ffffff",
-            align: "center",
-            stroke: '#000000',
-            strokeThickness: 10
-        };
-
-        var estiloTitulo = {
-            font: "60px 'Press Start 2P'",
-            fill: "#e0d202",
-            align: "center",
-            stroke: '#000000',
-            strokeThickness: 18
-        };
-
-        var estiloButton = {
-            font: "26px 'Press Start 2P'",
             fill: "#ffffff",
             align: "center",
             stroke: '#000000',
